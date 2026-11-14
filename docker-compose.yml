@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    image: taladrod-ai-pipeline
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./output:/app/output   # images + JSON stay on your machine
+      - ./docs:/app/docs       # `taladrod sanity` writes docs/iqa_sanity.md

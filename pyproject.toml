@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "taladrod-ai-pipeline"
+version = "0.1.0"
+description = "TaladRod used-car scraper + vehicle categorizer + local MUSIQ image quality scoring and CLIP photo tagging, with a Streamlit dashboard"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "requests>=2.31",
+  "beautifulsoup4>=4.12",
+  "lxml>=5.0",
+  "tenacity>=8.2",
+  "pydantic>=2.5",
+  "pillow>=10.0",
+  "imagehash>=4.3",
+  "opencv-python-headless>=4.10.0.84",  # first build compiled for NumPy 2,
+  "numpy>=1.26",
+  "torch>=2.1",
+  "open_clip_torch>=2.24",
+  "pyiqa>=0.1.13",  # MUSIQ image-quality model
+  "streamlit>=1.50",
+  "pandas>=2.0",
+  "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "responses>=0.25"]
+
+[project.scripts]
+taladrod = "taladrod.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-m 'not slow'"  # `pytest -m slow` runs the real-model test
+markers = ["slow: needs pyiqa and the real MUSIQ + CLIP weights (downloads ~700MB on first run)"]
